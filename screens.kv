@@ -1,0 +1,113 @@
+<TheToolbar@MDToolbar>:
+    type: 'top'
+    elevation: 12
+
+<TheFooter@MDToolbar>:
+    type: 'bottom'
+    halign: "center"
+    elevation: 24
+
+<StartScreen>:
+    name: 'start'
+    MDBoxLayout:
+        orientation: "vertical"
+        TheToolbar:
+            title: 'Start'
+            right_action_items: [["toy-brick-outline", lambda x: app.load_screen("conScreen")], ["cash-multiple", lambda x: app.load_screen("depot")], ["history", lambda x: app.load_screen("history")], ["file-download-outline", lambda x: app.load_screen("loadCSV")]]
+        MDBoxLayout:
+            orientation: "vertical"
+            ScrollView:
+                MDLabel:
+                    text: "Welcome to Brokerhelper. I help to organize buys and sells from a broker (at the moment only justTrade)."
+                    halign: "center"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+        TheFooter:
+            right_action_items: [["skull", lambda x: app.startDeletionDialog()]]
+
+
+
+<conScreen>:
+    name: 'conScreen'
+    MDBoxLayout:
+        orientation: "vertical"
+        TheToolbar:
+            title: 'Start'
+            right_action_items: [["finance", lambda x: app.load_screen("start")], ["cash-multiple", lambda x: app.load_screen("depot")], ["history", lambda x: app.load_screen("history")], ["file-download-outline", lambda x: app.load_screen("loadCSV")]]
+        MDBoxLayout:
+            orientation: "vertical"
+            MDLabel:
+                text: "On a click, you can automatically load containers that show your profits by trade and product."
+                halign: "center"
+                size_hint_y: None
+                height: self.texture_size[1]
+            ScrollView:
+                MDList:
+                    id: container
+        TheFooter:
+            right_action_items: [["toy-brick-search", lambda x: app.startAutogenDialog()], ["refresh", lambda x: app.refresh("conScreen")]]
+
+
+<LoadCSVScreen>:
+    name: 'loadCSV'
+    MDBoxLayout:
+        orientation: "vertical"
+        TheToolbar:
+            title: 'Load CSV'
+            right_action_items: [["finance", lambda x: app.load_screen("start")], ["toy-brick-outline", lambda x: app.load_screen("conScreen")], ["cash-multiple", lambda x: app.load_screen("depot")], ["history", lambda x: app.load_screen("history")]]
+        MDBoxLayout:
+            orientation: "vertical"
+            canvas.before:
+                Color:
+                    rgba: .7, .7, .7, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            MDLabel:
+                text: "Double click to load a CSV into BrokerHelper's database"
+                halign: "center"
+                size_hint_y: None
+                height: self.texture_size[1]
+            FileChooserListView:
+                on_submit: app.fileSelect(*args)
+            MDRectangleFlatButton:
+                text: "Load CSV"
+                on_release: app.btn_insertCSV()
+                pos_hint: {"center_x": .5, "center_y": .5}
+            ScrollView:
+
+
+
+
+<DepotScreen>:
+    name: 'depot'
+    MDBoxLayout:
+        orientation: "vertical"
+        TheToolbar:
+            title: 'Depot'
+            right_action_items: [["finance", lambda x: app.load_screen("start")], ["toy-brick-outline", lambda x: app.load_screen("conScreen")], ["history", lambda x: app.load_screen("history")], ["file-download-outline", lambda x: app.load_screen("loadCSV")]]
+        MDBoxLayout:
+            orientation: "vertical"
+            MDLabel:
+                text: "This is the users depot"
+                halign: "center"
+        TheFooter:
+            right_action_items: [["refresh", lambda x: app.refresh("depot")]]
+
+
+
+<HistoryScreen>:
+    name: 'history'
+    MDBoxLayout:
+        orientation: "vertical"
+        TheToolbar:
+            title: 'History'
+            right_action_items: [["finance", lambda x: app.load_screen("start")], ["toy-brick-outline", lambda x: app.load_screen("conScreen")], ["cash-multiple", lambda x: app.load_screen("depot")], ["file-download-outline", lambda x: app.load_screen("loadCSV")]]
+        MDBoxLayout:
+            orientation: "vertical"
+            MDLabel:
+                text: "This is the users history"
+                halign: "center"
+        TheFooter:
+            right_action_items: [["refresh", lambda x: app.refresh("history")]]
+
